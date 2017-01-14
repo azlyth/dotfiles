@@ -52,3 +52,13 @@ source /usr/local/opt/autoenv/activate.sh
 
 # No more pyc files!
 export PYTHONDONTWRITEBYTECODE=1
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /Users/peter/src/permanent/google-cloud-sdk/path.bash.inc ]; then
+  source '/Users/peter/src/permanent/google-cloud-sdk/path.bash.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc ]; then
+  source '/Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc'
+fi
