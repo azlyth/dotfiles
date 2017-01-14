@@ -41,7 +41,7 @@ PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 
 # Source virutalenvwrapper executable
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
 
 # Setup autoenv
 source /usr/local/opt/autoenv/activate.sh
@@ -51,8 +51,8 @@ export PATH=~/Library/Android/sdk/tools:$PATH
 export PATH=~/Library/Android/sdk/platform-tools:$PATH
 
 # NVM setup
-export NVM_DIR=~/.nvm
-. $(brew --prefix nvm)/nvm.sh
+#export NVM_DIR=~/.nvm
+#. $(brew --prefix nvm)/nvm.sh
 
 # No more pyc files!
 export PYTHONDONTWRITEBYTECODE=1
