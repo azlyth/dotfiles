@@ -46,10 +46,6 @@ MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 # Setup autoenv
 source /usr/local/opt/autoenv/activate.sh
 
-# Add Android tools to PATH
-export PATH=~/Library/Android/sdk/tools:$PATH
-export PATH=~/Library/Android/sdk/platform-tools:$PATH
-
 # NVM setup
 #export NVM_DIR=~/.nvm
 #. $(brew --prefix nvm)/nvm.sh
