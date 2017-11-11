@@ -181,11 +181,11 @@ function unmark {
     rm -i "$MARKPATH/$1"
 }
 function marks {
-    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
+    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- && echo
 }
 _completemarks() {
   local curw=${COMP_WORDS[COMP_CWORD]}
-  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+  local wordlist=$(gfind $MARKPATH -type l -printf "%f\n")
   COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
   return 0
 }
