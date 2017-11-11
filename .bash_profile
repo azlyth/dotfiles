@@ -24,41 +24,10 @@ done
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh mosh sshfs
 
-# If possible, add tab completion for many more commands
-[ -f /etc/bash_completion ] && source /etc/bash_completion
-
-source ~/.git_completion
-
-# NPM tab completions
-source ~/.npm_completion
-
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
 export PATH=/usr/local/bin:$PATH
 
-PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
-
-# Source virutalenvwrapper executable
-#source /usr/local/bin/virtualenvwrapper.sh
-
-# Setup autoenv
-source /usr/local/opt/autoenv/activate.sh
-
-# NVM setup
-#export NVM_DIR=~/.nvm
-#. $(brew --prefix nvm)/nvm.sh
-
 # No more pyc files!
 export PYTHONDONTWRITEBYTECODE=1
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f /Users/peter/src/permanent/google-cloud-sdk/path.bash.inc ]; then
-  source '/Users/peter/src/permanent/google-cloud-sdk/path.bash.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f /Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc ]; then
-  source '/Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc'
-fi
