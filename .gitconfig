@@ -1,0 +1,82 @@
+[alias]
+  a = add -A
+  ap = add -p
+  b = !clear && echo 'Current branches: \n' && git branch -avv
+  cl = clone
+  co = checkout
+  d = diff
+  dc = diff --cached
+  ds = diff --staged
+  l = !clear && git log --graph --decorate --pretty=oneline -n 30 --abbrev-commit
+  la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  lp = log -p
+  loc = !git ls-files | xargs wc -l
+  m = commit -m
+  s = !clear && git status -sb
+  st = !clear && git status
+  sync = !git pull && git push
+  undopush = push -f origin HEAD^:master
+
+[apply]
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
+
+[core]
+  # Use custom `.gitignore` and `.gitattributes`
+  excludesfile = ~/.gitignore
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error
+  whitespace = space-before-tab,trailing-space
+  autocrlf = input
+
+[color]
+  # Use colors in Git commands that are capable of colored output when outputting to the terminal
+  ui = auto
+
+[color "branch"]
+  current = blue reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow
+  frag = magenta
+  old = red
+  new = cyan
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[grep]
+  lineNumber = true
+
+[init]
+  # templatedir = ~/Dropbox/projects/git-init-template
+
+[merge]
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
+
+# URL shorthands
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+[url "git://github.com/"]
+  insteadOf = "github:"
+[url "git@gist.github.com:"]
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+[url "git://gist.github.com/"]
+  insteadOf = "gist:"
+
+[push]
+  default = current
+[user]
+	email = peter@nycmesh.net
+	name = Peter Valdez
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
