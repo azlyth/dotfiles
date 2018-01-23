@@ -49,5 +49,8 @@ export PYTHONDONTWRITEBYTECODE=1
 # Use brew's python
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
-# gcloud completion
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/peter/src/permanent/google-cloud-sdk/path.bash.inc' ]; then source '/Users/peter/src/permanent/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/peter/src/permanent/google-cloud-sdk/completion.bash.inc'; fi
