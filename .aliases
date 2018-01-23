@@ -26,7 +26,6 @@ alias bashrc="source ~/.bashrc"
 alias c="pygmentize -g"
 alias chrome="open -a 'Google Chrome'"
 alias du="du -h -d 1"
-# alias e="emacsclient -a emacs -t"
 alias g="git"
 alias git="hub"
 alias grep='GREP_COLOR="1;37;45" LANG=C grep --color=auto'
@@ -50,6 +49,7 @@ alias vmod="nvim \`git status --porcelain | sed -ne 's/^ M //p'\`"
 alias vl="nvim \`fc -s\`"
 alias vc="nvim \`git st | grep 'both modified' | cut -d' ' -f5\`"
 alias htop="sudo htop"
+alias x="xargs -I{}"
 
 # Update database for locate
 alias updatedb="sudo /usr/libexec/locate.updatedb"
@@ -145,9 +145,15 @@ alias di="docker images"
 alias dp="docker ps"
 alias dc="docker-compose"
 alias dm="docker-machine"
+alias remove-dangling='docker rmi $(docker images -qf "dangling=true")'
 
 ## Kubernetes
 alias k="kubectl"
 
 # Git
 alias push-all-remotes="git remote | xargs -L1 git push"
+
+# Python
+alias pe="pipenv"
+alias per="pipenv run"
+alias perp="pipenv run python"

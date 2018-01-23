@@ -29,9 +29,9 @@ Plug 'PeterRincker/vim-argumentative'
 Plug 'leafgarland/typescript-vim'
 Plug 'mkarmona/colorsbox'
 Plug 'mxw/vim-jsx'
-Plug 'floobits/floobits-neovim'
 Plug 'tpope/vim-fireplace'
-Plug 'klen/python-mode'
+Plug 'klen/python-mode', {'branch': 'develop'}
+Plug 'andrewstuart/vim-kubernetes'
 
 call plug#end()
 
@@ -87,11 +87,10 @@ let g:jsx_ext_required = 0
 
 " Syntastic checkers
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['pylint']
 
 " Python-mode
-let g:pymode_lint = 1
-let g:pymode_lint_unmodified = 1
-let g:pymode_lint_ignore = 'E501,W'
+let g:pymode_lint = 0
 let g:pymode_folding = 0
 let g:pymode_rope_completion = 0
 let g:pymode_options = 0
@@ -115,3 +114,5 @@ set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
 set wildignore+=*.pyc,*.egg-info,dist
 set wildignore+=*/smarty/*,*/vendor/*,*/node_modules/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*
 set termguicolors
+set exrc
+set secure

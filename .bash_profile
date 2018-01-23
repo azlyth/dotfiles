@@ -11,6 +11,20 @@ shopt -s nocaseglob
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
 
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
@@ -24,10 +38,16 @@ done
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh mosh sshfs
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-fi
+# Bash completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
 export PATH=/usr/local/bin:$PATH
 
 # No more pyc files!
 export PYTHONDONTWRITEBYTECODE=1
+
+# Use brew's python
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+# gcloud completion
+source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
