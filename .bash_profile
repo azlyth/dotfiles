@@ -47,22 +47,19 @@ export PATH=/usr/local/bin:$PATH
 # No more pyc files!
 export PYTHONDONTWRITEBYTECODE=1
 
-# Use brew's python
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc';
-fi
+#if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc' ]; then
+#  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc';
+#fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc' ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc';
-fi
+#if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc' ]; then
+#  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc';
+#fi
 
-export GOPATH="$HOME/src/go"
-export GOROOT="/usr/local/opt/go/libexec"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+#export GOPATH="$HOME/src/go"
+#export GOROOT="/usr/local/opt/go/libexec"
+#export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # Set the colors for `ls`
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
@@ -95,31 +92,25 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
 #[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
 #[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
 
-# yvm
-#export YVM_DIR=/usr/local/opt/yvm
-#[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
-
 # ruby
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+#export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# Setup broot
-#source /Users/peter/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 # asdf version manager
 #source $(brew --prefix asdf)/asdf.sh
 #source $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
 
 # To get around an issue with the Docker credential helper
-export CLOUDSDK_PYTHON=python2
+#export CLOUDSDK_PYTHON=python2
 
 # Linkerd path
 export PATH=$PATH:/Users/peter/.linkerd2/bin
 
-source /Users/peter/Library/Application\ Support/org.dystroy.broot/launcher/bash/br
+# broot
+#source /Users/peter/Library/Application\ Support/org.dystroy.broot/launcher/bash/br
 
 # Use new gcloud auth plugin
 # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
