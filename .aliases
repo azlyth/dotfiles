@@ -23,10 +23,7 @@ alias ls="command ls ${colorflag}"
 # Utilities
 alias a="ag -i"
 alias bashrc="source ~/.bashrc"
-alias c="pygmentize -g"
 alias chrome="open -a 'Google Chrome'"
-alias du="du -h -d 1"
-alias g="git"
 alias git="hub"
 alias grep='GREP_COLOR="1;37;45" LANG=C grep --color=auto'
 alias h="history"
@@ -40,8 +37,12 @@ alias lsd="ls -lh | grep '^d' | rainbowify"       # PRETTY COLORS
 alias ll="ls -l"
 alias o="open"
 alias oo="open ."
-alias p="cd ~/projects && clear && pwd && ls -Flh ${colorflag}"
+alias op="open -fa /Applications/Preview.app/"
+alias p="ping 8.8.8.8"
 alias psd="open *psd" # open all PSD files in a directory
+alias routes="netstat -nr"
+alias t="tldr"
+alias tf="terraform"
 alias u="cd .. && l" # A nifty one stolen from Chad Whitacre: http://chad.whitacre.usesthis.com/
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g' # Get OS X Software Updates, and update Homebrew, npm, and their installed packages
 alias v="nvim"
@@ -138,22 +139,89 @@ alias whiteboard="convert $1 -morphology Convolve DoG:15,100,0 -negate -normaliz
 
 alias qr="qrcode-terminal"
 
-### Docker ###
+# Docker
 alias d="docker"
 alias de="docker exec"
 alias di="docker images"
 alias dp="docker ps"
-alias dc="docker-compose"
+alias dc="docker compose"
 alias dm="docker-machine"
 alias remove-dangling='docker rmi $(docker images -qf "dangling=true")'
 
-## Kubernetes
-alias k="kubectl"
+# Dockerized programs
+alias paperspace='docker run --rm azlyth/docker-paperspace --apiKey $PAPERSPACE_API_KEY'
+
+# Kubernetes
+alias k='kubectl -n'
+alias ka='kubectl get --all-namespaces'
+alias kc='kubectl'
+alias kn='kubectl get nodes'
+alias kns='kubectl get ns'
+alias kgp='kubectl get pod -n'
+alias kdp='kubectl delete pod -n'
+alias pods='watch -n1 kubectl get pod -n'
+alias all='watch -n1 kubectl get all -n'
+alias all-pods='watch -n1 kubectl get pod --all-namespaces'
+alias not-running='kubectl get pod --all-namespaces -o wide | grep -ve Running -e Completed'
+alias node-pods="kubectl get pod -o wide --all-namespaces | grep"
+alias delete-not-running="kubectl get pod --all-namespaces | grep -v -e Running -e Completed | grep -v NAMESPACE | awk '{ print \"kubectl delete pod --wait=false -n \" $1 \" \" $2 }' | x sh -c \"{}\""
+
+# K3d
+alias reset-k3d='k3d cluster list | col 1 | grep -v NAME | x k3d cluster delete {}'
+
+# Shipyard
+alias s='kubectl -n shipyard-project-1'
+alias shipyard-pods='watch kubectl -n shipyard-project-1 get pod'
+alias clean-cluster='make cluster.dev-org.azlyth cluster.dev-org.cleanup'
+
+# Pachyderm
+alias pc="pachctl"
 
 # Git
 alias push-all-remotes="git remote | xargs -L1 git push"
+alias ci='open $(git ci-status -v | awk "{ print \$2 }")'
+alias pr='gh pr create'
+alias gf="git fetch"
+alias gp="git pull"
+alias gb="git branch"
+
+# AWS
+alias ep="aws eks update-kubeconfig --region us-east-1 --profile peter --name"
+alias ed="aws eks update-kubeconfig --region us-east-1 --profile peter-dev --name"
 
 # Python
 alias pe="pipenv"
 alias per="pipenv run"
 alias perp="pipenv run python"
+alias py2="pyenv global 2.7.15"
+alias py3="pyenv global 3.6.5"
+alias pys="pyenv global system"
+
+# GPG
+alias encrypt="gpg -e -o - --armor -r"
+alias copy-gpg-key="gpg --armor --export ptr.vldz@gmail.com | pbcopy"
+
+# SSH
+alias copy-ssh-key="cat ~/.ssh/id_rsa.pub | pbcopy"
+
+# FZF
+alias fzf="fzf -m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
+
+alias dephell="/Users/peter/.local/share/dephell/venvs/dephell/bin/dephell"
+
+# Watch aliases to allow for aliases in the argument (thanks the the trailing space)
+alias w1="watch -n1 "
+alias w2="watch -n2 "
+alias w5="watch -n5 "
+
+alias tp="telepresence"
+alias bc="buildctl"
+alias tp="telepresence"
+alias kx="kubectx"
+alias ps="phase shipyard sh"
+alias pp="phase shipyard-master-production sh"
+alias ks="k9s -n shipyard -c po"
+alias kp="k9s -n shipyard-master-production -c po"
+
+# vscode
+alias c="code"

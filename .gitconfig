@@ -33,7 +33,7 @@
   ui = auto
 
 [color "branch"]
-  current = blue reverse
+  current = white
   local = yellow
   remote = green
 
@@ -52,6 +52,7 @@
   lineNumber = true
 
 [init]
+	defaultBranch = main
   # templatedir = ~/Dropbox/projects/git-init-template
 
 [merge]
@@ -61,8 +62,15 @@
 [push]
   default = current
 [user]
-	email = peter@nycmesh.net
+	email = peter@shipyard.build
 	name = Peter Valdez
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
+[gc]
+	auto = 0
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

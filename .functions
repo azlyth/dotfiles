@@ -201,12 +201,9 @@ function dmc {
   eval "$(docker-machine env $1)"
 }
 
-function dive() {
-  docker exec -it $(docker ps -f "name=$1" | grep $1 | awk '{print $1}' | tail -n1) bash
-}
-
-function dsh() {
-  docker exec -it $(docker ps -f "name=$1" | grep $1 | awk '{print $1}' | tail -n1) sh
+function into {
+    CONTAINER=$(docker ps --format '{{ .Names }}' | grep $1 | head -n1)
+    docker exec -it $CONTAINER $2
 }
 
 function forward() {
@@ -239,4 +236,123 @@ function new() {
   else
     echo "No such skeleton."
   fi
+}
+
+function phase() {
+  POD="$(kubectl -n $1 get pod -o name | sed 's/pod\///' | fzf)"
+  kubectl -n $1 exec -it $POD ${2:-sh}
+}
+
+function forget-pi {
+  mv ~/.ssh/known_hosts ~/.ssh/known_hosts.bkup
+  grep -v '^raspberrypi.local' ~/.ssh/known_hosts.bkup > ~/.ssh/known_hosts
+}
+
+function forget-minikube {
+  mv ~/.ssh/known_hosts ~/.ssh/known_hosts.bkup
+  grep -v '^192.168.64\.' ~/.ssh/known_hosts.bkup > ~/.ssh/known_hosts
+}
+
+function b64d {
+  echo "$1" | base64 -D
+}
+
+function tap() {
+  docker run --rm -it $1 ${2:-sh}
+}
+
+function copy-volume() {
+  docker run --rm -it \
+    -v $1:/tmp/a \
+    -v $2:/tmp/b \
+    alpine \
+    sh -c "cd /tmp; ls a | xargs -I{} cp -r a/{} b/"
+}
+
+function col() {
+  awk "{ print \$$1 }"
+}
+
+function scale-down() {
+  NAMESPACE=$1
+  kubectl -n $NAMESPACE get deploy | grep -v NAME | awk "{ print \$1 }" | xargs kubectl -n $NAMESPACE scale --replicas 0 deploy
+}
+
+function scale-up() {
+  NAMESPACE=$1
+  kubectl -n $NAMESPACE get deploy | grep -v NAME | awk "{ print \$1 }" | xargs kubectl -n $NAMESPACE scale --replicas 1 deploy
+}
+
+function clear-evicted() {
+  NAMESPACE=$1
+  kubectl -n $NAMESPACE get pod | grep Evicted | awk '{ print $1 }' | xargs kubectl -n $NAMESPACE delete pod --wait=false
+}
+
+function clear-all-evicted() {
+  for namespace in $(kubectl get ns --no-headers | awk '{ print $1 }'); do
+    kubectl -n $namespace get pod | grep Evicted | awk '{ print $1 }' | xargs kubectl -n $namespace delete pod --wait=false
+  done
+}
+
+function commit-version() {
+  VERSION="v$(cat VERSION)"
+  git add VERSION
+  git commit -m "$VERSION"
+  git tag -a "$VERSION" -m "$VERSION"
+}
+
+function ki {
+  NAMESPACE=$1
+  kubectl -n $NAMESPACE describe pod | grep Image: | awk '{ print $2 }'
+}
+
+function list {
+  NAMESPACE=$1
+  OBJ=$2
+  kubectl -n $1 get $2 --no-headers -o custom-columns=':metadata.name'
+}
+
+function log {
+  FILE=/Users/peter/projects/personal/worklog/full-log.md
+  $EDITOR $FILE
+}
+
+function kl {
+  NAMESPACE=$1
+  stern -n $NAMESPACE --since 10m $(list $NAMESPACE pod | fzf)
+}
+
+function delete-pods {
+  kubectl -n $1 get pod --no-headers -o custom-columns=':metadata.name' | grep $2 | xargs kubectl -n $1 --wait=false delete pod
+}
+
+# Shipyard AWS
+function sd {
+    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.dev.pem ec2-user@$1
+}
+
+function sp {
+    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.prod.pem ec2-user@$1
+}
+
+function prodk3s {
+    CLUSTER_IP=$(aws ec2 describe-instances --filter Name=tag:Name,Values=$1 --profile peter | jq .Reservations[0].Instances[0].PublicDnsName -r)
+    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.prod.pem ec2-user@$CLUSTER_IP
+}
+
+function devk3s {
+    CLUSTER_IP=$(aws ec2 describe-instances --filter Name=tag:Name,Values=$1 --profile peter-dev | jq .Reservations[0].Instances[0].PublicDnsName -r)
+    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.dev.pem ec2-user@$CLUSTER_IP
+}
+
+function waitport {
+    HOST=$1
+    PORT=$2
+
+    while ! nc -z $HOST 8080; do   
+      echo Not ready.
+      sleep 1
+    done
+
+    echo Ready.
 }

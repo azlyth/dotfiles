@@ -15,11 +15,14 @@ Thumbs.db
 
 # Keep .extra & .ssh/ file out of repo
 .extra
-.ssh/
 
 .env
 tags
-stellar.yaml
 
 # Rope files
 .ropeproject/
+
+# direnv
+.envrc
+
+.nvimrc
