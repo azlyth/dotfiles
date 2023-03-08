@@ -169,11 +169,6 @@ alias delete-not-running="kubectl get pod --all-namespaces | grep -v -e Running 
 # K3d
 alias reset-k3d='k3d cluster list | col 1 | grep -v NAME | x k3d cluster delete {}'
 
-# Shipyard
-alias s='kubectl -n shipyard-project-1'
-alias shipyard-pods='watch kubectl -n shipyard-project-1 get pod'
-alias clean-cluster='make cluster.dev-org.azlyth cluster.dev-org.cleanup'
-
 # Pachyderm
 alias pc="pachctl"
 
@@ -218,10 +213,6 @@ alias tp="telepresence"
 alias bc="buildctl"
 alias tp="telepresence"
 alias kx="kubectx"
-alias ps="phase shipyard sh"
-alias pp="phase shipyard-master-production sh"
-alias ks="k9s -n shipyard -c po"
-alias kp="k9s -n shipyard-master-production -c po"
 
 # vscode
 alias c="code"

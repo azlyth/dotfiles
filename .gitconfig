@@ -62,7 +62,7 @@
 [push]
   default = current
 [user]
-	email = peter@shipyard.build
+	email = ptr.vldz@gmail.com
 	name = Peter Valdez
 [filter "media"]
 	clean = git-media-clean %f

@@ -326,25 +326,6 @@ function delete-pods {
   kubectl -n $1 get pod --no-headers -o custom-columns=':metadata.name' | grep $2 | xargs kubectl -n $1 --wait=false delete pod
 }
 
-# Shipyard AWS
-function sd {
-    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.dev.pem ec2-user@$1
-}
-
-function sp {
-    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.prod.pem ec2-user@$1
-}
-
-function prodk3s {
-    CLUSTER_IP=$(aws ec2 describe-instances --filter Name=tag:Name,Values=$1 --profile peter | jq .Reservations[0].Instances[0].PublicDnsName -r)
-    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.prod.pem ec2-user@$CLUSTER_IP
-}
-
-function devk3s {
-    CLUSTER_IP=$(aws ec2 describe-instances --filter Name=tag:Name,Values=$1 --profile peter-dev | jq .Reservations[0].Instances[0].PublicDnsName -r)
-    ssh -i ~/.ssh/keypairs/shipyard-aws/shipyard-operator.dev.pem ec2-user@$CLUSTER_IP
-}
-
 function waitport {
     HOST=$1
     PORT=$2
