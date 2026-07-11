@@ -11,3 +11,6 @@ link:
 	ln -sf $(PWD)/.gitconfig ~/.gitconfig
 	ln -sf $(PWD)/.gitignore ~/.gitignore
 	ln -sf $(PWD)/.inputrc ~/.inputrc
+	mkdir -p ~/.claude
+	ln -sf $(PWD)/.claude/CLAUDE.md ~/.claude/CLAUDE.md
+	ln -sf $(PWD)/.claude/settings.json ~/.claude/settings.json

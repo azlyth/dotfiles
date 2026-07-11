@@ -1,0 +1,6 @@
+{
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
+  "agentPushNotifEnabled": true,
+  "tui": "fullscreen"
+}
