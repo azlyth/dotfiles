@@ -24,7 +24,6 @@ alias ls="command ls ${colorflag}"
 alias a="ag -i"
 alias bashrc="source ~/.bashrc"
 alias chrome="open -a 'Google Chrome'"
-alias git="hub"
 alias grep='GREP_COLOR="1;37;45" LANG=C grep --color=auto'
 alias h="history"
 alias j="jobs -l"
