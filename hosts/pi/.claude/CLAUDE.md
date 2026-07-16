@@ -19,6 +19,17 @@ detail lives in each project's own CLAUDE.md.
 - Projects live under `~/projects/{personal,common37}`. Each is self-contained
   with its own CLAUDE.md — read it before working in a project.
 
+## The backlog repo
+
+`~/projects/personal/backlog` (GitHub: `azlyth/backlog`) is the **parking lot for
+potential projects and future specs** — ideas worth capturing before they
+evaporate, but not being built yet. Each idea is one Markdown file; the
+`README.md` is the index. Deliberately low-ceremony: no build, no service, not
+wired into the fleet. When an idea graduates into real work it moves out into its
+own project under `~/projects/personal/`. When a session surfaces a "someday"
+idea or a researched-but-shelved plan, drop it here as a note (and update the
+README index) rather than losing it.
+
 ## The front door: http-routing
 
 `~/projects/personal/http-routing` is the Pi's **single HTTPS front door** — a
