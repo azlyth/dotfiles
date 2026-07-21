@@ -68,8 +68,10 @@ When any project needs an AWS resource (SES email, S3, IAM, …), it goes throug
 consumer: spruce's SES magic-link email). To add a resource: extend/add a module +
 a `module` block in each env root, then `make plan-<env>` / `make apply-<env>`. Read
 that repo's `CLAUDE.md`/`README.md` for the runbook. **Scope every resource by service
-— in name AND `Service` tag** (`notify-mailer-prod`); IAM inline policies + access keys
-can't be tagged in AWS, so those are scoped by name only.
+— in name AND `Service` tag** (`uptime-kuma-mailer-prod`); IAM inline policies + access
+keys can't be tagged in AWS, so those are scoped by name only. **Service emails send
+from the service's own domain** (`login@spruce.ubbe.nyc`, `alerts@uptime.ubbe.nyc`), not
+a shared `send.` subdomain — each sender gets its own DKIM-verified SES identity.
 
 - **Auth = IAM Identity Center SSO, no persisted keys.** Profile
   `personal-cloud-infra` (`~/.aws/config`; `superadmin` on `265217855447`,
