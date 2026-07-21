@@ -18,6 +18,13 @@ detail lives in each project's own CLAUDE.md.
   the way that project documents; don't assume a bare re-run.
 - Projects live under `~/projects/{personal,common37}`. Each is self-contained
   with its own CLAUDE.md — read it before working in a project.
+- **Self-verify web UIs with headless Chromium** (`/usr/bin/chromium`). Screenshot
+  a locally-running app and `Read` the PNG to actually see your work instead of
+  guessing — iterate on layout/legibility before handing off. Example:
+  `chromium --headless=new --no-sandbox --disable-gpu --hide-scrollbars
+  --user-data-dir=/tmp/chromeprofile --window-size=412,915 --virtual-time-budget=8000
+  --screenshot=/tmp/shot.png http://127.0.0.1:<port>/` (rm the profile dir between
+  runs for a clean cache; hit the loopback origin to bypass Cloudflare caching).
 
 ## The backlog repo
 
@@ -51,6 +58,43 @@ on the open internet.
   services) and **astoria.app** (public Astoria projects). The route table and
   the full "add a service" flow live in `http-routing/CLAUDE.md` — check there,
   it changes more often than this file.
+
+## AWS / cloud resources
+
+When any project needs an AWS resource (SES email, S3, IAM, …), it goes through
+**`~/projects/personal/personal-cloud-infra`** — OpenTofu (Terraform fork) IaC,
+**never** console click-ops. One account (`265217855447`), reusable
+`modules/<service>` × `environments/{dev,prod}` roots, encrypted S3 state (first
+consumer: spruce's SES magic-link email). To add a resource: extend/add a module +
+a `module` block in each env root, then `make plan-<env>` / `make apply-<env>`. Read
+that repo's `CLAUDE.md`/`README.md` for the runbook. **Scope every resource by service
+— in name AND `Service` tag** (`notify-mailer-prod`); IAM inline policies + access keys
+can't be tagged in AWS, so those are scoped by name only.
+
+- **Auth = IAM Identity Center SSO, no persisted keys.** Profile
+  `personal-cloud-infra` (`~/.aws/config`; `superadmin` on `265217855447`,
+  us-east-1), token lasts ~8–12h. Check with `aws sts get-caller-identity
+  --profile personal-cloud-infra`.
+- **Re-auth from any Claude conversation (device-code, cross-device):** run, in the
+  background, `BROWSER=/bin/true aws sso login --profile personal-cloud-infra
+  --use-device-code` — it prints a verification URL + `user_code` and then *polls*.
+  **Give Peter the autofill link** `https://ssoins-722347cfbf7ebdeb.us-east-1.portal.amazonaws.com/#/device?user_code=XXXX-XXXX`
+  to approve in his own browser; the command completes once he authorizes.
+  Gotchas learned the hard way: **`--use-device-code` is required** (the plain
+  `--no-browser` default is a `127.0.0.1` localhost-callback PKCE flow that can't work
+  from another device), but do **NOT** combine `--use-device-code` with `--no-browser`
+  — that combo fails instantly with `invalid_grant / Invalid device code provided`.
+  `BROWSER=/bin/true` just stops it hanging on a headless browser-open. If a code gets
+  wedged, clear `~/.aws/sso/cache/*.json` and retry. The Makefile exports
+  `AWS_PROFILE=personal-cloud-infra`.
+- **If the login times out** (the code expires before Peter approves — a lapsed code
+  fails with the same `invalid_grant / Invalid device code provided`), do **NOT**
+  auto-retry or spew fresh codes into the void: just tell Peter it timed out and that
+  you'll mint a new code whenever he's ready at his browser. Codes only live a few
+  minutes, so mint one *when he signals he's ready*, not speculatively.
+- **Secrets:** `*.tfstate` / `*.tfvars` / `backend.hcl` / AWS creds are gitignored —
+  never commit them. Scoped product keys (e.g. spruce's send-only SES key) are read
+  via `tofu output -raw …` and synced into the consumer's `.env`, not pasted around.
 
 ## Reaching the Pi remotely
 
